@@ -7,6 +7,9 @@ metadata:
   labels:
     chart: "docker-kubernetes-hello-world-0.1.0-SNAPSHOT"
 spec:
+  selector:
+    matchLabels:
+      name: hello-docker-kubernetes-hello-world
   type: LoadBalancer
   ports:
   - port: 80
@@ -15,7 +18,7 @@ spec:
     protocol: TCP
     name: docker-kubernetes-hello-world
   selector:
-    app: hello-docker-kubernetes-hello-world
+    name: hello-docker-kubernetes-hello-world
 ---
 # Source: docker-kubernetes-hello-world/templates/deployment.yaml
 apiVersion: apps/v1
@@ -25,7 +28,6 @@ metadata:
   namespace:
   labels:
     name: hello-docker-kubernetes-hello-world
-    chart: "docker-kubernetes-hello-world-0.1.0-SNAPSHOT"
 spec:
   selector:
     matchLabels:
@@ -39,7 +41,7 @@ spec:
     spec:
       containers:
       - name: docker-kubernetes-hello-world
-        image: "karthikkumararun/helloworld-spring-boot:v2"
+        image: "karthikkumararun/helloworld-spring-boot:v1"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
