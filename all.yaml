@@ -52,14 +52,14 @@ spec:
           initialDelaySeconds: 60
           periodSeconds: 10
           successThreshold: 1
-          timeoutSeconds: 1
+          timeoutSeconds: 30
         readinessProbe:
           httpGet:
             path: /actuator/health
             port: 8080
           periodSeconds: 10
           successThreshold: 1
-          timeoutSeconds: 1
+          timeoutSeconds: 30
         resources:
             limits:
               cpu: 500m
