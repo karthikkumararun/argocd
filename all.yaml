@@ -1,0 +1,67 @@
+---
+# Source: docker-kubernetes-hello-world/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-docker-kubernetes-hello-world
+  labels:
+    chart: "docker-kubernetes-hello-world-0.1.0-SNAPSHOT"
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: docker-kubernetes-hello-world
+  selector:
+    app: hello-docker-kubernetes-hello-world
+---
+# Source: docker-kubernetes-hello-world/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-docker-kubernetes-hello-world
+  namespace:
+  labels:
+    name: hello-docker-kubernetes-hello-world
+    chart: "docker-kubernetes-hello-world-0.1.0-SNAPSHOT"
+spec:
+  selector:
+    matchLabels:
+      name: hello-docker-kubernetes-hello-world
+  replicas: 1
+  template:
+    metadata:
+      namespace:
+      labels:
+        name: hello-docker-kubernetes-hello-world
+    spec:
+      containers:
+      - name: docker-kubernetes-hello-world
+        image: "karthikkumararun/helloworld-spring-boot:v1"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 400m
+              memory: 512Mi
+      terminationGracePeriodSeconds: 10
