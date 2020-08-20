@@ -41,7 +41,7 @@ spec:
     spec:
       containers:
       - name: docker-kubernetes-hello-world
-        image: "karthikkumararun/helloworld-spring-boot:v2"
+        image: "karthikkumararun/helloworld-spring-boot:v1"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
